@@ -16,6 +16,10 @@ let app = express();
 
 app.use(bodyParser.json());
 
+//use this for serving up the static resources index.html, css, etc
+app.use(express.static("./static"));
+
+
 //get the route definitions
 const todoRoutes = require("./routes/todosRts");
 //tell the express app to use the routes

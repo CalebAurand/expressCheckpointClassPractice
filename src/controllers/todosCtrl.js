@@ -12,6 +12,17 @@ const itemsSummary = (req, res) => {
       console.log("could not execute the query", err);
       res.sendStatus(400);
     } else {
+
+        //for the is_done column, the database returns 1, 0, or null,
+        //but we want to surface that as true or false
+        for (let i=0; i<results.length; i++){
+          let result = results[i];
+          if(result.is_done){
+            result.is_done = true;
+          } else {
+            result.is_done = false;
+          }
+        }
       res.json(results);
     };
   });
@@ -38,6 +49,14 @@ const itemDetails = function(req, res){
       res.sendStatus(500); // it is not the clients fault the query failed
     } else {
       if(results.length == 1){
+        //for the is_done column, swap out 0, 1, or null
+        // true or false
+        let result = results[0]
+        if(result.is_done){
+          result.is_done = true;
+        } else {
+          result.is_done = false;
+        };
         res.json(results[0]);
       } else if (results.length > 1) {
         console.log("found more than one result for id", id);
